@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neobrutalist Timetable</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --border-color: #000000;
+      --border-thick: 3px;
+      --shadow-offset: 8px;
+      --c-yellow: #FFE600;
+      --c-cyan: #00F0FF;
+      --c-white: #FFFFFF;
+      --c-red-bg: #FFE5E5;
+      --c-red-text: #FF0033;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #F4F0EA;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px 20px;
+      color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      max-width: 1440px;
+      overflow-x: auto;
+      border: 4px solid var(--border-color);
+      background: #FFFFFF;
+      box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      text-align: left;
+    }
+
+    th, td {
+      border: var(--border-thick) solid var(--border-color);
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      line-height: 1.35;
+      vertical-align: middle;
+      font-weight: 700;
+    }
+
+    thead th {
+      background-color: #000000;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      padding: 16px 12px;
+    }
+
+    thead th.time-col {
+      width: 120px;
+      text-align: center;
+    }
+
+    thead th.friday-timing-col {
+      width: 110px;
+      text-align: center;
+      background-color: var(--c-yellow);
+      color: #000000;
+    }
+
+    .time-cell {
+      font-weight: 900;
+      font-size: 0.85rem;
+      text-align: center;
+      background-color: #FFFFFF;
+      white-space: nowrap;
+    }
+
+    .friday-time-cell {
+      font-weight: 900;
+      font-size: 0.82rem;
+      text-align: center;
+      background-color: #FFFFFF;
+      white-space: nowrap;
+    }
+
+    /* Category Palette */
+    .bg-yellow {
+      background-color: var(--c-yellow);
+    }
+
+    .bg-cyan {
+      background-color: var(--c-cyan);
+    }
+
+    .bg-white {
+      background-color: var(--c-white);
+    }
+
+    /* Sub-items formatting */
+    .item {
+      margin-bottom: 6px;
+    }
+
+    .item:last-child {
+      margin-bottom: 0;
+    }
+
+    .room-code {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 900;
+      background-color: #000000;
+      color: #FFFFFF;
+      padding: 1px 5px;
+      margin-top: 2px;
+    }
+
+    .bg-yellow .room-code {
+      background-color: #000000;
+      color: var(--c-yellow);
+    }
+
+    .bg-cyan .room-code {
+      background-color: #000000;
+      color: var(--c-cyan);
+    }
+
+    /* Highlighted Makeup/Library Slot */
+    .tag-makeup {
+      display: inline-block;
+      background-color: var(--c-red-bg);
+      color: var(--c-red-text);
+      border: 2px solid var(--c-red-text);
+      box-shadow: 2px 2px 0px var(--c-red-text);
+      padding: 4px 6px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    /* Break Banner */
+    .break-row {
+      background-color: #FFFFFF;
+    }
+
+    .break-cell {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-red-text);
+      padding: 14px 10px;
+      background-color: #FFF2F2;
+      border: var(--border-thick) solid var(--border-color);
+    }
+
+    .break-friday-header {
+      background-color: var(--c-yellow);
+      color: #000000;
+      font-weight: 900;
+      font-size: 0.72rem;
+      line-height: 1.2;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 6px 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th class="time-col">TIME / DAYS</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th class="friday-timing-col">Friday Timings</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">0900-0950</td>
+          <td class="bg-white">Technical &amp; Business Writing</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white"></td>
+        </tr>
+
+        <tr>
+          <td class="time-cell">1000-1050</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">Technical &amp; Business Writing</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white" rowspan="3">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white"></td>
+        </tr>
+
+        <tr>
+          <td class="time-cell">1100-1150</td>
+          <td class="bg-cyan" rowspan="2">
+            <div class="item">
+              Large Language Model (Gp-02)<br />
+              <span class="room-code">(CR-11-UG Block)/</span>
+            </div>
+            <div class="item">
+              Large Language Model (Gp-03)<br />
+              <span class="room-code">(CR-14-UG Block)</span>
+            </div>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <div class="item">Entrepreneurship</div>
+            <span class="room-code">(CR-15-UG Block)</span>
+          </td>
+          <td class="bg-white"></td>
+        </tr>
+
+        <tr>
+          <td class="time-cell">1200-1250</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <div class="item">Design &amp; Analysis of Algorithms</div>
+            <span class="room-code">(CR-11-UG Block)</span>
+          </td>
+          <td class="bg-white">
+            <div class="item">Design &amp; Analysis of Algorithms</div>
+            <span class="room-code">(CR-15-UG Block)</span>
+          </td>
+          <td class="bg-white"></td>
+        </tr>
+
+        <tr class="break-row">
+          <td class="time-cell">1300-1350</td>
+          <td class="break-cell" colspan="5">Lunch + Prayer Break</td>
+          <td class="break-friday-header">Friday's Timings<br />(After Prayer Break)</td>
+        </tr>
+
+        <tr>
+          <td class="time-cell">1400-1450</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">Design &amp; Analysis of Algorithms</td>
+          <td class="bg-white">Technical &amp; Business Writing</td>
+          <td class="bg-white">Pakistan Studies</td>
+          <td class="bg-cyan" rowspan="3">
+            <div class="item">
+              Large Language Model (Gp-02) (Lab)<br />
+              <span class="room-code">(CL-09-SMRIMMS)</span>
+            </div>
+            <div class="item">
+              Large Language Model (Gp-03) (Lab)<br />
+              <span class="room-code">(CL-03-UG Block)</span>
+            </div>
+          </td>
+          <td class="friday-time-cell">1430-1515</td>
+        </tr>
+
+        <tr>
+          <td class="time-cell">1500-1550</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">Entrepreneurship</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period/Industrial Visit</span>
+          </td>
+          <td class="bg-white">Pakistan Studies</td>
+          <td class="friday-time-cell">1520-1605</td>
+        </tr>
+
+        <tr>
+          <td class="time-cell">1600-1650</td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period/Industrial Visit</span>
+          </td>
+          <td class="bg-white">
+            <span class="tag-makeup">Makeup Slot/Library Period</span>
+          </td>
+          <td class="friday-time-cell">1610-1655</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
